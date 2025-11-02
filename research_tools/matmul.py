@@ -44,3 +44,39 @@ def matmul_bf16_int4_kernel(
     outputs_vals = acc.to(tl.bfloat16)
     mask_outputs_vals = mask_m[:, None] & mask_n[None, :]
     tl.store(output_ptr + offs_m[:, None] * N + offs_n[None, :], outputs_vals, mask=mask_outputs_vals)
+
+
+def matmul_int4(
+    x, 
+    w_packed, 
+    w_scales, 
+    w_zeros,
+    BLOCK_M = 64,
+    BLOCK_N = 64,
+    BLOCK_K = 64,
+  ):
+    M, K = x.shape
+    N, _ = w_packed.shape
+
+    output = torch.empty((M, N), dtype=torch.bfloat16, device=x.device)
+
+    grid = lambda meta: (
+        triton.cdiv(M, meta['BLOCK_M']),
+        triton.cdiv(N, meta['BLOCK_N']),
+    )
+
+    matmul_bf16_int4_kernel[grid](
+        x, 
+        w_packed, 
+        w_scales, 
+        w_zeros, 
+        output,
+        M, 
+        N, 
+        K,
+        BLOCK_M=BLOCK_M,
+        BLOCK_N=BLOCK_N,
+        BLOCK_K=BLOCK_K,
+    )
+
+    return output
