@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 
-from quant import quantize_int4
-from matmul import matmul_int4
+from .quant import quantize_int4
+from .matmul import matmul_int4
 
 
 class QuantLinearINT4(nn.Module):
