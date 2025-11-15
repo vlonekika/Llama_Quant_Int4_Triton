@@ -4,7 +4,7 @@ import torch.nn as nn
 import numpy as np
 
 from tqdm import tqdm
-from triton_compute_layer import QuantLinearINT4
+from .triton_compute_layer import QuantLinearINT4
 
 def quantize_model(model):
   
