@@ -3,6 +3,9 @@ A collection of high-performance Triton (CUDA) kernels for 4-bit weight quantiza
 
 ---
 
+📊 [Презентация по Llama_Quant_Int4_Triton](https://docs.google.com/presentation/d/1ZkMUov-zohkJrrmQ4BVZc-qQK15-q29BXO0Sju-ah-I/edit?slide=id.g3a916d639aa_0_101#slide=id.g3a916d639aa_0_101) — слайды по производительности и сравнению FP16 vs INT4.
+
+
 ## Performance Overview
 
 The tables below summarize the timings for **weight quantization** and **matrix multiplication** using Triton kernels compared to standard PyTorch operations. The best performing configurations are highlighted.
